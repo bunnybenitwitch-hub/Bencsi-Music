@@ -1,0 +1,87 @@
+/* Base */
+body { background-color: #fbe3e8; margin:0; font-family: Arial, sans-serif; }
+
+.Title {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 50px;
+  color: #ff4757;
+  text-align: center;
+  margin: 30px 0 50px 0;
+}
+
+.subtitle { font-family: 'Arial Black', sans-serif; font-size: 40px; color: #333; margin-bottom:20px; }
+.text { font-family: 'Arial', sans-serif; font-size:20px; color:#555; line-height:1.6; margin-bottom:30px; }
+
+.container {
+  max-width:800px;
+  margin:auto;
+  padding:20px;
+  background-color:#fff;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+.box { margin-bottom:40px; }
+
+.beat {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 30px;
+  color:white;
+  background-color:#ff6f91;
+  padding:10px;
+  border-radius:5px;
+  text-decoration:none;
+}
+.beat:hover { background-color:#ff4757; }
+
+/* Review Tab */
+.review-tab {
+  position:fixed;
+  right:-300px;
+  top:40%;
+  width:300px;
+  background:#fff;
+  border-radius:10px 0 0 10px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+  transition: right 0.3s ease;
+  z-index:9999;
+}
+.review-tab:hover { right:0; }
+
+.review-tab-button {
+  position:absolute;
+  left:-130px;
+  top:50%;
+  transform: translateY(-50%) rotate(-90deg);
+  background-color:#ff6f91;
+  color:white;
+  padding:12px 22px;
+  font-family:'Arial Black', sans-serif;
+  font-size:16px;
+  border-radius:10px 10px 0 0;
+  cursor:pointer;
+}
+
+.review-tab-content { padding:20px; }
+.review-title { font-family:'Arial Black', sans-serif; font-size:22px; color:#ff4757; margin-bottom:12px; }
+
+.review-tab-content input,
+.review-tab-content textarea {
+  width:100%; padding:8px; margin-bottom:10px; font-size:14px; border-radius:5px; border:1px solid #ccc;
+}
+.review-tab-content textarea { resize:none; height:80px; }
+
+.review-tab-content button {
+  width:100%; padding:10px; background-color:#ff6f91; color:white; border:none; border-radius:5px; font-family:'Arial Black',sans-serif; cursor:pointer;
+}
+.review-tab-content button:hover { background-color:#ff4757; }
+
+/* Responsive */
+@media (max-width:600px){
+  .Title { font-size:35px; }
+  .subtitle { font-size:28px; }
+  .text { font-size:16px; }
+  .beat { font-size:22px; padding:8px; }
+  .container { padding:15px; }
+  .review-tab { width:250px; }
+  .review-tab-button { left:-100px; font-size:14px; padding:10px 18px; }
+}
