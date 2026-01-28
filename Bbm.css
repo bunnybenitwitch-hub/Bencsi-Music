@@ -1,0 +1,70 @@
+/* Music Button */
+.beat {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 30px;
+  color:white;
+  background-color:#ff6f91;
+  padding:14px 20px;  /* increased padding for mobile tap */
+  border-radius:5px;
+  text-decoration:none;
+  display:inline-block;
+  min-width:120px;
+  text-align:center;
+  cursor:pointer;
+  transition: background 0.3s;
+}
+.beat:hover,
+.beat:active { background-color:#ff4757; }
+
+/* Review Tab Button */
+.review-tab-button {
+  position:absolute;
+  left:-130px;
+  top:50%;
+  transform: translateY(-50%) rotate(-90deg);
+  background-color:#ff6f91;
+  color:white;
+  padding:14px 22px; /* slightly bigger for tap */
+  font-family:'Arial Black', sans-serif;
+  font-size:16px;
+  border-radius:10px 10px 0 0;
+  cursor:pointer;
+  user-select:none;
+  touch-action: manipulation; /* ensures fast tap */
+}
+.review-tab-button:active { background-color:#ff4757; }
+
+/* Submit Button */
+.review-tab-content button {
+  width:100%;
+  padding:14px; /* bigger for mobile tap */
+  font-size:16px;
+  background-color:#ff6f91;
+  color:white;
+  border:none;
+  border-radius:5px;
+  font-family:'Arial Black', sans-serif;
+  cursor:pointer;
+  transition: background 0.3s, transform 0.1s;
+}
+.review-tab-content button:hover,
+.review-tab-content button:active {
+  background-color:#ff4757;
+  transform:scale(0.98); /* tactile feedback */
+}
+
+/* Enter Site Button */
+a.button {
+  display:inline-block;
+  background-color:#ff6f91;
+  color:white;
+  padding:16px 36px; /* bigger for tap */
+  border-radius:50px;
+  font-weight:700;
+  font-size:1.2rem;
+  text-decoration:none;
+  transition: all 0.3s ease;
+  cursor:pointer;
+}
+a.button:hover,
+a.button:active { background-color:#ff4757; transform:scale(0.98); }
