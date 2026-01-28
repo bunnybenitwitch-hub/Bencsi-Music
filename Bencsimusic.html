@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BencsiMusic - All Releases</title>
+<style>
+/* RESET & BASE */
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Arial', sans-serif; background:#fbe3e8; color:#333; line-height:1.5; padding:10px; }
+
+/* CONTAINERS */
+.container { max-width:800px; margin:auto; padding:20px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+.box { margin-bottom:40px; }
+
+/* TITLES */
+.Title { font-family:'Arial Black', sans-serif; font-size:40px; color:#ff4757; text-align:center; margin:20px 0; }
+.subtitle { font-family:'Arial Black', sans-serif; font-size:28px; margin-bottom:15px; color:#333; }
+.text { font-size:18px; margin-bottom:20px; color:#555; }
+
+/* MUSIC BUTTON */
+.beat {
+  font-family:'Arial Black', sans-serif;
+  font-size:20px;
+  color:white;
+  background-color:#ff6f91;
+  padding:12px 18px;
+  border-radius:5px;
+  text-decoration:none;
+  display:inline-block;
+  min-width:120px;
+  text-align:center;
+  cursor:pointer;
+  transition: background 0.3s;
+  touch-action: manipulation;
+}
+.beat:hover,
+.beat:active { background-color:#ff4757; }
+
+/* REVIEW TAB */
+.review-tab {
+  position:fixed;
+  right:-260px;
+  top:30%;
+  width:260px;
+  background:white;
+  border-radius:10px 0 0 10px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+  transition:right 0.3s ease;
+  z-index:9999;
+}
+.review-tab:hover { right:0; }
+
+/* REVIEW TAB BUTTON */
+.review-tab-button {
+  position:absolute;
+  left:-120px;
+  top:50%;
+  transform:translateY(-50%) rotate(-90deg);
+  background-color:#ff6f91;
+  color:white;
+  padding:12px 18px;
+  font-family:'Arial Black', sans-serif;
+  font-size:14px;
+  border-radius:10px 10px 0 0;
+  cursor:pointer;
+  user-select:none;
+  touch-action: manipulation;
+}
+.review-tab-button:active { background-color:#ff4757; }
+
+/* REVIEW CONTENT */
+.review-tab-content { padding:15px; }
+.review-title { font-family:'Arial Black', sans-serif; font-size:20px; color:#ff4757; margin-bottom:10px; }
+
+/* INPUTS */
+.review-tab-content input,
+.review-tab-content textarea {
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  font-size:14px;
+  border-radius:5px;
+  border:1px solid #ccc;
+}
+.review-tab-content textarea { resize:none; height:70px; }
+
+/* SUBMIT BUTTON */
+.review-tab-content button {
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  background-color:#ff6f91;
+  color:white;
+  border:none;
+  border-radius:5px;
+  font-family:'Arial Black', sans-serif;
+  cursor:pointer;
+  transition: background 0.3s, transform 0.1s;
+  touch-action: manipulation;
+}
+.review-tab-content button:hover,
+.review-tab-content button:active { background-color:#ff4757; transform:scale(0.98); }
+
+/* REVIEWS DISPLAY */
+#reviews p { margin-bottom:10px; font-size:16px; line-height:1.4; }
+
+/* MEDIA QUERIES FOR MOBILE */
+@media(max-width:600px) {
+  .Title { font-size:28px; }
+  .subtitle { font-size:22px; }
+  .text { font-size:16px; }
+  .beat { font-size:18px; padding:10px 14px; }
+  .review-tab { width:220px; right:-220px; }
+  .review-tab-button { left:-105px; font-size:12px; padding:10px 14px; }
+}
+</style>
+</head>
+<body>
+
+<h1 class="Title">BencsiMusic - All <b>Releases</b></h1>
+
+<div class="container">
+  <div class="box">
+    <h2 class="subtitle">Released Music</h2>
+    <p class="text">Explore all the music tracks officially released by BencsiMusic. Enjoy beats and rhythms crafted with passion!</p>
+    <a href="https://www.bandlab.com/track/480e0cc8-f8f1-f011-8d4d-002248444940?revId=460e0cc8-f8f1-f011-8d4d-002248444940" class="beat">Explore Released Music</a>
+  </div>
+</div>
+
+<!-- Review Tab -->
+<div class="review-tab">
+  <div class="review-tab-button">Leave a Review</div>
+  <div class="review-tab-content">
+    <h3 class="review-title">Leave a Review</h3>
+    <input type="text" id="nameInput" placeholder="Your name" />
+    <textarea id="reviewInput" placeholder="Your review"></textarea>
+    <button id="submitReviewBtn" type="button">Submit</button>
+    <div id="form-message" style="margin-top:10px;"></div>
+  </div>
+</div>
+
+<!-- Reviews Display -->
+<div class="container box">
+  <h2 class="subtitle">Reviews</h2>
+  <div id="reviews"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDSX119jkUp2nqTuCthpm9Bc4EP8N7Mxuw",
+  authDomain: "reviews-ee142.firebaseapp.com",
+  projectId: "reviews-ee142",
+  storageBucket: "reviews-ee142.appspot.com",
+  messagingSenderId: "895911128020",
+  appId: "1:895911128020:web:91662c5b75488b0c358441"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const reviewsDiv = document.getElementById("reviews");
+const nameInput = document.getElementById("nameInput");
+const reviewInput = document.getElementById("reviewInput");
+const submitBtn = document.getElementById("submitReviewBtn");
+const formMessage = document.getElementById("form-message");
+
+function sanitizeHTML(str) {
+  return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+async function loadReviews() {
+  reviewsDiv.innerHTML = "<p>Loading reviews...</p>";
+  try {
+    const querySnapshot = await getDocs(collection(db, "reviews"));
+    if(querySnapshot.empty){
+      reviewsDiv.innerHTML = "<p>No reviews yet. Be the first to leave one!</p>";
+      return;
+    }
+    reviewsDiv.innerHTML = "";
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      reviewsDiv.innerHTML += `<p><strong>${sanitizeHTML(data.name)}:</strong> ${sanitizeHTML(data.review)}</p>`;
+    });
+  } catch(e){
+    reviewsDiv.innerHTML = "<p>Error loading reviews.</p>";
+    console.error(e);
+  }
+}
+
+submitBtn.addEventListener("click", async () => {
+  const name = nameInput.value.trim();
+  const review = reviewInput.value.trim();
+  if(!name || !review){
+    formMessage.style.color="red";
+    formMessage.textContent="Please enter both name and review.";
+    return;
+  }
+  try {
+    await addDoc(collection(db,"reviews"), {name, review});
+    formMessage.style.color="green";
+    formMessage.textContent="Thank you for your review!";
+    nameInput.value=""; reviewInput.value="";
+    loadReviews();
+  } catch(e){
+    formMessage.style.color="red";
+    formMessage.textContent="Error submitting review.";
+    console.error(e);
+  }
+});
+
+loadReviews();
+</script>
+
+</body>
+</html>
